@@ -1,5 +1,5 @@
 // Package lingo is for basic programming language detection of source code files.
-//go:generate github.com/github/lingo/cmd/lingo
+//go:generate go run ./cmd/lingo/lingo.go
 package lingo
 
 import (

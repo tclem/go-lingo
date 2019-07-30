@@ -1,21 +1,21 @@
 package main
 
 import (
-	"strings"
-	"go/format"
-	"log"
 	"bytes"
-	"io/ioutil"
 	"fmt"
+	"go/format"
+	"io/ioutil"
+	"log"
+	"strings"
 
 	"gopkg.in/yaml.v2"
 )
 
 type Language struct {
-	ID uint `yaml:"language_id"`
-	Name string
+	ID         uint `yaml:"language_id"`
+	Name       string
 	Extensions []string `yaml:"extensions"`
-	Filenames []string `yaml:"filenames"`
+	Filenames  []string `yaml:"filenames"`
 }
 
 func main() {
@@ -103,13 +103,13 @@ func main() {
 	// Format the output.
 	src := g.format()
 
-	err = ioutil.WriteFile("pkg/lingo/languages.go", src, 0644)
+	err = ioutil.WriteFile("languages.go", src, 0644)
 	if err != nil {
 		panic(err)
 	}
 }
 
-func (g *Generator)printLanguage(language *Language) {
+func (g *Generator) printLanguage(language *Language) {
 	var extensions []string
 	for _, e := range language.Extensions {
 		extensions = append(extensions, fmt.Sprintf(`"%s"`, e))
