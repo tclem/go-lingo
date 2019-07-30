@@ -18,6 +18,7 @@ type Language struct {
 	Filenames  []string `yaml:"filenames"`
 }
 
+// NOTE: Due to Go's random iteration of maps, generating will always change languages.go
 func main() {
 	log.SetFlags(0)
 	log.SetPrefix("lingo: ")
