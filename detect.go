@@ -9,15 +9,15 @@ import (
 // LanguageForPath returns the programming language (if any) for a filepath.
 func LanguageForPath(path string) *Language {
 	ext := filepath.Ext(path)
-	langs := LanguagesByExtension[ext]
-	if langs != nil && len(langs) > 0 {
-		return &langs[0]
+	lang, ok := Languages[LanguagesByExtension[ext]]
+	if ok {
+		return &lang
 	}
 
 	name := filepath.Base(path)
-	langs = LanguagesByFileName[name]
-	if langs != nil && len(langs) > 0 {
-		return &langs[0]
+	lang, ok = Languages[LanguagesByFileName[name]]
+	if ok {
+		return &lang
 	}
 
 	return nil

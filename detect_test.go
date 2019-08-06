@@ -9,6 +9,9 @@ import (
 func TestDetectByExtension(t *testing.T) {
 	lang := LanguageForPath("test.rb")
 	assert.Equal(t, "Ruby", lang.Name)
+
+	lang = LanguageForPath(".notanvalidext")
+	assert.Nil(t, lang)
 }
 
 func TestDetectByFileName(t *testing.T) {

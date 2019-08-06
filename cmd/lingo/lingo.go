@@ -47,12 +47,12 @@ func main() {
 	g.Printf("\n")
 
 	g.Printf("var (\n")
-	g.Printf("\tLanguages = map[string]Language{\n")
 	languagesByExtension := map[string][]Language{}
 	languagesByFileName := map[string][]Language{}
+	g.Printf("\tLanguages = map[string]Language{\n")
 	for k, v := range languages {
-		g.Printf("\t\t\"%s\": ", k)
 		v.Name = k
+		g.Printf("\t\t\"%s\":", k)
 		g.printLanguage(&v)
 		g.Printf(",\n")
 
@@ -68,33 +68,27 @@ func main() {
 			languagesByFileName[e] = x
 		}
 	}
-	g.Printf("\t}\n")
+	g.Printf("}\n")
 
 	// Languages by extension
-	g.Printf("\tLanguagesByExtension = map[string][]Language{\n")
+	g.Printf("\tLanguagesByExtension = map[string]string{\n")
 	for ext, langs := range languagesByExtension {
-		g.Printf("\t\t\"%s\": []Language{\n", ext)
-		for _, l := range langs {
-			g.Printf("\t\t\t")
-			g.printLanguage(&l)
-			g.Printf(",")
-			g.Printf("\n")
+		lang := primaryLanguage(langs)
+		if lang == nil {
+			continue
 		}
-		g.Printf("\t\t},\n")
+		g.Printf("\t\t\"%s\": \"%s\",\n", ext, lang.Name)
 	}
 	g.Printf("\t}\n")
 
 	// Languages by filename
-	g.Printf("\tLanguagesByFileName = map[string][]Language{\n")
+	g.Printf("\tLanguagesByFileName = map[string]string{\n")
 	for name, langs := range languagesByFileName {
-		g.Printf("\t\t\"%s\": []Language{\n", name)
-		for _, l := range langs {
-			g.Printf("\t\t\t")
-			g.printLanguage(&l)
-			g.Printf(",")
-			g.Printf("\n")
+		lang := primaryLanguage(langs)
+		if lang == nil {
+			continue
 		}
-		g.Printf("\t\t},\n")
+		g.Printf("\t\t\"%s\": \"%s\",\n", name, lang.Name)
 	}
 	g.Printf("\t}\n")
 
@@ -108,6 +102,35 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+// Some extensions and filenames are overloaded. Return what we consider primary
+// languages. In the general case just return the first langauge.
+func primaryLanguage(languages []Language) *Language {
+	if len(languages) < 1 {
+		return nil
+	}
+
+	if len(languages) == 1 {
+		return &languages[0]
+	}
+
+	for _, l := range languages {
+		if l.Name == "Markdown" {
+			return &l
+		}
+		if l.Name == "R" {
+			return &l
+		}
+		if l.Name == "SQL" {
+			return &l
+		}
+		if l.Name == "TSX" {
+			return &l
+		}
+	}
+
+	return &languages[0]
 }
 
 func (g *Generator) printLanguage(language *Language) {
