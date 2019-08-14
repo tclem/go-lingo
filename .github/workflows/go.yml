@@ -18,9 +18,9 @@ jobs:
         path: ${{ steps['go'].module-path }}
 
     - name: Build
-      working-directory: ${{ go.module-path }}
+      working-directory: ${{ steps['go'].module-path }}
       run: make
       
     - name: Test
-      working-directory: ${{ go.module-path }}
+      working-directory: ${{ steps['go'].module-path }}
       run: make test
