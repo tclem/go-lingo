@@ -98,7 +98,7 @@ func main() {
 	// Format the output.
 	src := g.format()
 
-	err = ioutil.WriteFile("languages.go", src, 0644)
+	err = ioutil.WriteFile("lingo/languages.go", src, 0644)
 	if err != nil {
 		panic(err)
 	}

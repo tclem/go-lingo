@@ -1,4 +1,4 @@
-// Package lingo is for basic programming language detection of source code files.
+// Package go-lingo is for basic programming language detection of source code files.
 //go:generate go run ./cmd/lingo/lingo.go
 package lingo
 

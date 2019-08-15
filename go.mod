@@ -1,4 +1,4 @@
-module github.com/tclem/go-lingo
+module github.com/tclem/go-lingo/lingo
 
 go 1.12
 
