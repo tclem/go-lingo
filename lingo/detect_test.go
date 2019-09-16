@@ -19,6 +19,11 @@ func TestDetectByFileName(t *testing.T) {
 	assert.Equal(t, "Ruby", lang.Name)
 }
 
+func TestGemfileLock(t *testing.T) {
+	lang := LanguageForPath("Gemfile.lock")
+	assert.Nil(t, lang)
+}
+
 func TestUnableToDetect(t *testing.T) {
 	lang := LanguageForPath("noideawhatthisis")
 	assert.Nil(t, lang)
@@ -27,5 +32,5 @@ func TestUnableToDetect(t *testing.T) {
 func TestParsedLanguagesYml(t *testing.T) {
 	assert.Equal(t, 519, len(Languages))
 	assert.Equal(t, 1117, len(LanguagesByExtension))
-	assert.Equal(t, 235, len(LanguagesByFileName))
+	assert.Equal(t, 234, len(LanguagesByFileName))
 }

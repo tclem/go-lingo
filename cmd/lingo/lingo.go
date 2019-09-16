@@ -23,7 +23,7 @@ func main() {
 	log.SetFlags(0)
 	log.SetPrefix("lingo: ")
 
-	content, err := ioutil.ReadFile("languages.yml")
+	content, err := ioutil.ReadFile("../languages.yml")
 	if err != nil {
 		panic(err)
 	}
@@ -98,7 +98,7 @@ func main() {
 	// Format the output.
 	src := g.format()
 
-	err = ioutil.WriteFile("lingo/languages.go", src, 0644)
+	err = ioutil.WriteFile("../lingo/languages.go", src, 0644)
 	if err != nil {
 		panic(err)
 	}
