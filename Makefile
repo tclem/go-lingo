@@ -10,10 +10,10 @@ all:
 all: build
 
 build:
-	$Q $(GO) build
+	$Q $(GO) build ./...
 
 generate:
-	$Q $(GO) generate
+	$Q $(GO) generate ./...
 
 # Tests
 TESTFLAGS = -race -v
