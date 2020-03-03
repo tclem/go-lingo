@@ -1,26 +1,22 @@
-name: Go CI
+name: Build
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
-
+    name: go-lingo
     runs-on: ubuntu-latest
-    
     steps:
     - id: go
-      uses: actions/setup-go@v1     
+      uses: actions/setup-go@v1
       with:
-        version: 1.12
-
-    - uses: actions/checkout@master
+        version: 1.13
+    - uses: actions/checkout@v2
       with:
         path: ${{ steps['go'].module-path }}
-
     - name: Build
       working-directory: ${{ steps['go'].module-path }}
       run: make
-      
     - name: Test
       working-directory: ${{ steps['go'].module-path }}
       run: make test

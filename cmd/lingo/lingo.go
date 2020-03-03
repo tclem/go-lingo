@@ -78,10 +78,12 @@ func main() {
 	}
 	g.Printf("}\n")
 
+	sortedByExtension := mapSort(languagesByExtension)
+
 	// Languages by extension
 	g.Printf("\tLanguagesByExtension = map[string]string{\n")
-	for ext, langs := range languagesByExtension {
-		lang := primaryLanguage(langs)
+	for _, ext := range sortedByExtension {
+		lang := primaryLanguage(languagesByExtension[ext])
 		if lang == nil {
 			continue
 		}
@@ -89,9 +91,12 @@ func main() {
 	}
 	g.Printf("\t}\n")
 
+	sortedByFileName := mapSort(languagesByFileName)
+
 	// Languages by filename
 	g.Printf("\tLanguagesByFileName = map[string]string{\n")
-	for name, langs := range languagesByFileName {
+	for _, name := range sortedByFileName {
+		langs := languagesByFileName[name]
 		lang := primaryLanguage(langs)
 		if lang == nil {
 			continue
@@ -110,6 +115,15 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func mapSort(toSort map[string][]Language) []string {
+	sorted := make([]string, 0, len(toSort))
+	for key := range toSort {
+		sorted = append(sorted, key)
+	}
+	sort.Strings(sorted)
+	return sorted
 }
 
 // Some extensions and filenames are overloaded. Return what we consider primary
