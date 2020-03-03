@@ -30,7 +30,7 @@ func TestUnableToDetect(t *testing.T) {
 }
 
 func TestParsedLanguagesYml(t *testing.T) {
-	assert.Equal(t, 519, len(Languages))
-	assert.Equal(t, 1117, len(LanguagesByExtension))
-	assert.Equal(t, 234, len(LanguagesByFileName))
+	assert.Equal(t, 550, len(Languages))
+	assert.Equal(t, 1151, len(LanguagesByExtension))
+	assert.Equal(t, 254, len(LanguagesByFileName))
 }
