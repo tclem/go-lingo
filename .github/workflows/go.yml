@@ -7,13 +7,13 @@ jobs:
     name: go-lingo
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        path: ${{ steps['go'].module-path }}
     - id: go
       uses: actions/setup-go@v1
       with:
         version: 1.13
+    - uses: actions/checkout@v2
+      with:
+        path: ${{ steps['go'].module-path }}
     - name: Build
       working-directory: ${{ steps['go'].module-path }}
       run: make
