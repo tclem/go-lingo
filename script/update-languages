@@ -15,7 +15,7 @@ else
 fi
 
 # Curl for the langauges.yml file for the $REF.
-curl -H 'Accept: application/vnd.github.v3.raw' https://api.github.com/repos/github/linguist/contents/lib/linguist/languages.yml?ref=$REF > languages.yml
+curl -sH 'Accept: application/vnd.github.v3.raw' https://api.github.com/repos/github/linguist/contents/lib/linguist/languages.yml?ref=$REF > languages.yml
 
 # Comment out "- Gemfile.lock" using an in-place file substitution.
 sed -i '' 's/  - Gemfile.lock/  # - Gemfile.lock/' ./languages.yml
