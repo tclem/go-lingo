@@ -6,19 +6,23 @@ import (
 	"path/filepath"
 )
 
-// LanguageForPath returns the programming language (if any) for a filepath.
-func LanguageForPath(path string) *Language {
+// LanguageForPath returns the programming languages (if any) for a filepath.
+func LanguageForPath(path string) []Language {
 	ext := filepath.Ext(path)
-	lang, ok := Languages[LanguagesByExtension[ext]]
-	if ok {
-		return &lang
+	names := LanguagesByExtension[ext]
+	if len(names) > 0 {
+		return lookup(names)
 	}
 
 	name := filepath.Base(path)
-	lang, ok = Languages[LanguagesByFileName[name]]
-	if ok {
-		return &lang
-	}
+	names = LanguagesByFileName[name]
+	return lookup(names)
+}
 
-	return nil
+func lookup(names []string) []Language {
+	var langs []Language
+	for _, n := range names {
+		langs = append(langs, Languages[n])
+	}
+	return langs
 }
