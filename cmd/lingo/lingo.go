@@ -81,27 +81,28 @@ func main() {
 	sortedByExtension := mapSort(languagesByExtension)
 
 	// Languages by extension
-	g.Printf("\tLanguagesByExtension = map[string]string{\n")
+	g.Printf("\tLanguagesByExtension = map[string][]string{\n")
 	for _, ext := range sortedByExtension {
-		lang := primaryLanguage(languagesByExtension[ext])
-		if lang == nil {
-			continue
+		langs := languagesByExtension[ext]
+		var names []string
+		for _, l := range langs {
+			names = append(names, fmt.Sprintf(`"%s"`, l.Name))
 		}
-		g.Printf("\t\t\"%s\": \"%s\",\n", ext, lang.Name)
+		g.Printf("\t\t\"%s\": []string{%s},\n", ext, strings.Join(names, ", "))
 	}
 	g.Printf("\t}\n")
 
 	sortedByFileName := mapSort(languagesByFileName)
 
 	// Languages by filename
-	g.Printf("\tLanguagesByFileName = map[string]string{\n")
+	g.Printf("\tLanguagesByFileName = map[string][]string{\n")
 	for _, name := range sortedByFileName {
 		langs := languagesByFileName[name]
-		lang := primaryLanguage(langs)
-		if lang == nil {
-			continue
+		var names []string
+		for _, l := range langs {
+			names = append(names, fmt.Sprintf(`"%s"`, l.Name))
 		}
-		g.Printf("\t\t\"%s\": \"%s\",\n", name, lang.Name)
+		g.Printf("\t\t\"%s\": []string{%s},\n", name, strings.Join(names, ", "))
 	}
 	g.Printf("\t}\n")
 
@@ -124,35 +125,6 @@ func mapSort(toSort map[string][]Language) []string {
 	}
 	sort.Strings(sorted)
 	return sorted
-}
-
-// Some extensions and filenames are overloaded. Return what we consider primary
-// languages. In the general case just return the first langauge.
-func primaryLanguage(languages []Language) *Language {
-	if len(languages) < 1 {
-		return nil
-	}
-
-	if len(languages) == 1 {
-		return &languages[0]
-	}
-
-	for _, l := range languages {
-		if l.Name == "Markdown" {
-			return &l
-		}
-		if l.Name == "R" {
-			return &l
-		}
-		if l.Name == "SQL" {
-			return &l
-		}
-		if l.Name == "TSX" {
-			return &l
-		}
-	}
-
-	return &languages[0]
 }
 
 func (g *Generator) printLanguage(language *Language) {
