@@ -7,26 +7,28 @@ import (
 )
 
 func TestDetectByExtension(t *testing.T) {
-	lang := LanguageForPath("test.rb")
-	assert.Equal(t, "Ruby", lang.Name)
+	langs := LanguageForPath("test.rb")
+	assert.Equal(t, 1, len(langs))
+	assert.Equal(t, "Ruby", langs[0].Name)
 
-	lang = LanguageForPath(".notanvalidext")
-	assert.Nil(t, lang)
+	langs = LanguageForPath(".notanvalidext")
+	assert.Equal(t, 0, len(langs))
 }
 
 func TestDetectByFileName(t *testing.T) {
-	lang := LanguageForPath("Rakefile")
-	assert.Equal(t, "Ruby", lang.Name)
+	langs := LanguageForPath("Rakefile")
+	assert.Equal(t, 1, len(langs))
+	assert.Equal(t, "Ruby", langs[0].Name)
 }
 
 func TestGemfileLock(t *testing.T) {
-	lang := LanguageForPath("Gemfile.lock")
-	assert.Nil(t, lang)
+	langs := LanguageForPath("Gemfile.lock")
+	assert.Equal(t, 0, len(langs))
 }
 
 func TestUnableToDetect(t *testing.T) {
-	lang := LanguageForPath("noideawhatthisis")
-	assert.Nil(t, lang)
+	langs := LanguageForPath("noideawhatthisis")
+	assert.Equal(t, 0, len(langs))
 }
 
 func TestParsedLanguagesYml(t *testing.T) {
