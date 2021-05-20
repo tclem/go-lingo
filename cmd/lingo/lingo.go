@@ -15,6 +15,7 @@ import (
 type Language struct {
 	ID         uint `yaml:"language_id"`
 	Name       string
+	TMScope    string   `yaml:"tm_scope"`
 	Extensions []string `yaml:"extensions"`
 	Filenames  []string `yaml:"filenames"`
 }
@@ -35,7 +36,7 @@ func main() {
 	}
 
 	sortedLanguageNames := make([]string, 0, len(languages))
-	for name, _ := range languages {
+	for name := range languages {
 		sortedLanguageNames = append(sortedLanguageNames, name)
 	}
 	sort.Strings(sortedLanguageNames)
@@ -133,7 +134,7 @@ func (g *Generator) printLanguage(language *Language) {
 		extensions = append(extensions, fmt.Sprintf(`"%s"`, e))
 	}
 	exts := strings.Join(extensions, ", ")
-	g.Printf("Language{ID: %d, Name:\"%s\", Extensions: []string{%s} }", language.ID, language.Name, exts)
+	g.Printf("Language{ID: %d, Name:\"%s\", TMScope:\"%s\", Extensions: []string{%s} }", language.ID, language.Name, language.TMScope, exts)
 }
 
 type Generator struct {
