@@ -5,6 +5,7 @@ package lingo
 type Language struct {
 	ID         uint
 	Name       string
+	TMScope    string
 	Extensions []string
 	Filenames  []string
 }

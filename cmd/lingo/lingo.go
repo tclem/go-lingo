@@ -49,6 +49,7 @@ func main() {
 	g.Printf("type Language struct {\n")
 	g.Printf("\tID uint\n")
 	g.Printf("\tName string\n")
+	g.Printf("\tTMScope string\n")
 	g.Printf("\tExtensions []string\n")
 	g.Printf("\tFilenames []string\n")
 	g.Printf("}\n")
