@@ -58,6 +58,7 @@ func main() {
 	g.Printf("var (\n")
 	languagesByExtension := map[string][]Language{}
 	languagesByFileName := map[string][]Language{}
+	languagesById := map[uint]string{}
 	g.Printf("\tLanguages = map[string]Language{\n")
 	for _, name := range sortedLanguageNames {
 		v := languages[name]
@@ -77,6 +78,8 @@ func main() {
 			x = append(x, v)
 			languagesByFileName[e] = x
 		}
+
+		languagesById[v.ID] = name
 	}
 	g.Printf("}\n")
 
@@ -105,6 +108,19 @@ func main() {
 			names = append(names, fmt.Sprintf(`"%s"`, l.Name))
 		}
 		g.Printf("\t\t\"%s\": []string{%s},\n", name, strings.Join(names, ", "))
+	}
+	g.Printf("\t}\n")
+
+	// Languages by id
+	sortedById := make([]uint, 0, len(languagesById))
+	for id := range languagesById {
+		sortedById = append(sortedById, id)
+	}
+	sort.Slice(sortedById, func(i, j int) bool { return sortedById[i] < sortedById[j] })
+	g.Printf("\tLanguagesById = map[uint]string{\n")
+	for _, id := range sortedById {
+		name := fmt.Sprintf(`"%s"`, languagesById[id])
+		g.Printf("\t\t%d: %s,\n", id, name)
 	}
 	g.Printf("\t}\n")
 

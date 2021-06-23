@@ -21,6 +21,10 @@ func TestDetectByFileName(t *testing.T) {
 	assert.Equal(t, "Ruby", langs[0].Name)
 }
 
+func TestFindLanguageByName(t *testing.T) {
+	assert.Equal(t, "Ruby", LanguagesById[326])
+}
+
 func TestGemfileLock(t *testing.T) {
 	langs := LanguageForPath("Gemfile.lock")
 	assert.Equal(t, 0, len(langs))
