@@ -35,6 +35,14 @@ func TestUnableToDetect(t *testing.T) {
 	assert.Equal(t, 0, len(langs))
 }
 
+func TestFields(t *testing.T) {
+	ruby := Languages["Ruby"]
+	assert.NotNil(t, ruby)
+	assert.Equal(t, uint(326), ruby.ID)
+	assert.Equal(t, "#701516", ruby.Color)
+	assert.Equal(t, "source.ruby", ruby.TMScope)
+}
+
 func TestParsedLanguagesYml(t *testing.T) {
 	assert.Equal(t, 598, len(Languages))
 	assert.Equal(t, 1202, len(LanguagesByExtension))

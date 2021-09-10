@@ -16,6 +16,7 @@ type Language struct {
 	ID         uint `yaml:"language_id"`
 	Name       string
 	TMScope    string   `yaml:"tm_scope"`
+	Color      string   `yaml:"color"`
 	Extensions []string `yaml:"extensions"`
 	Filenames  []string `yaml:"filenames"`
 }
@@ -50,6 +51,7 @@ func main() {
 	g.Printf("\tID uint\n")
 	g.Printf("\tName string\n")
 	g.Printf("\tTMScope string\n")
+	g.Printf("\tColor string\n")
 	g.Printf("\tExtensions []string\n")
 	g.Printf("\tFilenames []string\n")
 	g.Printf("}\n")
@@ -151,7 +153,7 @@ func (g *Generator) printLanguage(language *Language) {
 		extensions = append(extensions, fmt.Sprintf(`"%s"`, e))
 	}
 	exts := strings.Join(extensions, ", ")
-	g.Printf("Language{ID: %d, Name:\"%s\", TMScope:\"%s\", Extensions: []string{%s} }", language.ID, language.Name, language.TMScope, exts)
+	g.Printf("Language{ID: %d, Name:\"%s\", TMScope:\"%s\", Color:\"%s\", Extensions: []string{%s} }", language.ID, language.Name, language.TMScope, language.Color, exts)
 }
 
 type Generator struct {
