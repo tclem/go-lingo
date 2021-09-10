@@ -44,7 +44,7 @@ func TestFields(t *testing.T) {
 }
 
 func TestParsedLanguagesYml(t *testing.T) {
-	assert.Equal(t, 598, len(Languages))
-	assert.Equal(t, 1202, len(LanguagesByExtension))
-	assert.Equal(t, 287, len(LanguagesByFileName))
+	assert.Equal(t, 607, len(Languages))
+	assert.Equal(t, 1212, len(LanguagesByExtension))
+	assert.Equal(t, 294, len(LanguagesByFileName))
 }
