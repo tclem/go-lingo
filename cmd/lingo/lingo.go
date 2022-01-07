@@ -15,6 +15,8 @@ import (
 type Language struct {
 	ID         uint `yaml:"language_id"`
 	Name       string
+	TMScope    string   `yaml:"tm_scope"`
+	Color      string   `yaml:"color"`
 	Extensions []string `yaml:"extensions"`
 	Filenames  []string `yaml:"filenames"`
 }
@@ -35,7 +37,7 @@ func main() {
 	}
 
 	sortedLanguageNames := make([]string, 0, len(languages))
-	for name, _ := range languages {
+	for name := range languages {
 		sortedLanguageNames = append(sortedLanguageNames, name)
 	}
 	sort.Strings(sortedLanguageNames)
@@ -48,6 +50,8 @@ func main() {
 	g.Printf("type Language struct {\n")
 	g.Printf("\tID uint\n")
 	g.Printf("\tName string\n")
+	g.Printf("\tTMScope string\n")
+	g.Printf("\tColor string\n")
 	g.Printf("\tExtensions []string\n")
 	g.Printf("\tFilenames []string\n")
 	g.Printf("}\n")
@@ -56,6 +60,7 @@ func main() {
 	g.Printf("var (\n")
 	languagesByExtension := map[string][]Language{}
 	languagesByFileName := map[string][]Language{}
+	languagesById := map[uint]string{}
 	g.Printf("\tLanguages = map[string]Language{\n")
 	for _, name := range sortedLanguageNames {
 		v := languages[name]
@@ -75,6 +80,8 @@ func main() {
 			x = append(x, v)
 			languagesByFileName[e] = x
 		}
+
+		languagesById[v.ID] = name
 	}
 	g.Printf("}\n")
 
@@ -106,6 +113,19 @@ func main() {
 	}
 	g.Printf("\t}\n")
 
+	// Languages by id
+	sortedById := make([]uint, 0, len(languagesById))
+	for id := range languagesById {
+		sortedById = append(sortedById, id)
+	}
+	sort.Slice(sortedById, func(i, j int) bool { return sortedById[i] < sortedById[j] })
+	g.Printf("\tLanguagesById = map[uint]string{\n")
+	for _, id := range sortedById {
+		name := fmt.Sprintf(`"%s"`, languagesById[id])
+		g.Printf("\t\t%d: %s,\n", id, name)
+	}
+	g.Printf("\t}\n")
+
 	// end of `var` declaration
 	g.Printf(")\n")
 
@@ -133,7 +153,7 @@ func (g *Generator) printLanguage(language *Language) {
 		extensions = append(extensions, fmt.Sprintf(`"%s"`, e))
 	}
 	exts := strings.Join(extensions, ", ")
-	g.Printf("Language{ID: %d, Name:\"%s\", Extensions: []string{%s} }", language.ID, language.Name, exts)
+	g.Printf("Language{ID: %d, Name:\"%s\", TMScope:\"%s\", Color:\"%s\", Extensions: []string{%s} }", language.ID, language.Name, language.TMScope, language.Color, exts)
 }
 
 type Generator struct {
